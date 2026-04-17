@@ -43,6 +43,15 @@ Stores sessions, zone state, event log, discovered fragments, and checkpoints.
 5. **Optional Cache/Event Bus (deferred)**
 Not required for v1. Add Redis only if needed for performance or async jobs.
 
+```mermaid
+flowchart LR
+  P[Player Browser] --> W[Web Client SPA<br/>React + TypeScript]
+  W --> A[Game API<br/>Spring Boot]
+  A --> S[Simulation Engine<br/>Deterministic Turn/Tick]
+  A --> D[(PostgreSQL)]
+  S --> D
+```
+
 ## Domain-Driven Design (DDD) View
 Use a modular monolith with bounded contexts that can later be extracted if needed.
 
@@ -57,6 +66,30 @@ Context integration approach (v1):
 - Direct in-process calls between modules when needed.
 - Domain events for decoupling inside the monolith.
 - No external broker required yet (KISS).
+
+```mermaid
+flowchart TB
+  Sess[Session Context]
+  Struct[Structure Context]
+  Anom[Anomaly Context]
+  Lore[Lore Context]
+  Var[Variant Rules Context]
+  Bus[(In-Process Domain Events)]
+
+  Sess --> Struct
+  Struct --> Anom
+  Struct --> Lore
+  Var --> Struct
+  Var --> Anom
+  Sess --> Bus
+  Struct --> Bus
+  Anom --> Bus
+  Lore --> Bus
+  Bus --> Sess
+  Bus --> Struct
+  Bus --> Anom
+  Bus --> Lore
+```
 
 ## Technology Stack (v1)
 - **Frontend**: Node.js 24 LTS, React 19.2 + TypeScript 5.9 + Vite 7 + Tailwind CSS  4.1 + Shadcn UI 3.x + pnpm 10
@@ -78,6 +111,23 @@ Context integration approach (v1):
 - Client receives updated projection (state + events + newly visible information).
 
 This model supports mystery by controlling what is revealed versus what is merely inferred.
+
+```mermaid
+sequenceDiagram
+  participant C as Web Client
+  participant API as Game API
+  participant ENG as Simulation Engine
+  participant DB as PostgreSQL
+
+  C->>API: POST /sessions/:id/commands
+  API->>API: Validate command + permissions
+  API->>ENG: applyTurn(state, command)
+  ENG-->>API: TurnResult + DomainEvents
+  API->>DB: Persist state changes
+  API->>DB: Append domain_event rows
+  API->>DB: Append player event_log rows
+  API-->>C: Updated visible state + events
+```
 
 ## Narrative-to-System Mapping
 - **Unknown origin**: lore fragments are unlocked via exploration and system triggers, not linear exposition.
@@ -119,6 +169,16 @@ Example domain events (internal, in-process):
 - `FragmentRecovered`
 
 For v1, publish these events in-process and persist them for audit/replay. Do not introduce asynchronous distributed messaging yet.
+
+```mermaid
+flowchart LR
+  CMD[Validated Command] --> TICK[Turn/Tick Resolution]
+  TICK --> DE[Domain Events<br/>SessionStarted, TickAdvanced, ...]
+  TICK --> ST[State Updates]
+  DE --> DET[(domain_event table)]
+  ST --> GST[(game_session / zone_state / system_link)]
+  DE --> ELOG[(event_log projection)]
+```
 
 ## Suggested Repository Shape
 Adopt the following monorepo layout:
