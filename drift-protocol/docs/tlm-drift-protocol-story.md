@@ -1,5 +1,5 @@
 # The Last Megastructure: Drift Protocol
-![Drift Protocol banner](assets/drift_megastructure_banner.svg)
+![Drift Protocol banner](assets/megastructure_drift_protocol_banner.png)
 
 ## Premise
 
