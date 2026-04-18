@@ -1,4 +1,5 @@
 # The Last Megastructure: Drift Protocol
+![Drift Protocol banner](assets/drift_megastructure_banner.svg)
 
 ## Premise
 
@@ -20,6 +21,53 @@ Every system you activate is part of a larger, hidden logic:
 You are not just repairing the structure.
 
 You are **learning its rules**.
+
+---
+
+## Visual Language (Drift Protocol)
+
+### Signal Topology (What You See)
+
+```mermaid
+flowchart LR
+  C[Failing Core] --> L1[Control Lattice A]
+  C --> L2[Control Lattice B]
+  L1 --> Z1[Zone 01]
+  L1 --> Z2[Zone 02]
+  L2 --> Z3[Zone 03]
+  L2 --> Z4[Zone 04]
+  Z2 -. latent route .-> Z4
+  Z1 -. hidden coupling .-> Z3
+```
+
+### Hidden Protocol States (What It Is Doing)
+
+```mermaid
+stateDiagram-v2
+  [*] --> Dormant
+  Dormant --> Listening: signal detected
+  Listening --> Routing: energy committed
+  Routing --> PatternMatch: adjacency alignment
+  PatternMatch --> Unlock: protocol condition met
+  PatternMatch --> Listening: mismatch
+  Unlock --> Reconfigure: subsystem rewrite
+  Reconfigure --> Listening
+```
+
+### Command Response Loop (How You Learn)
+
+```mermaid
+sequenceDiagram
+  participant P as Custodian
+  participant S as Megastructure
+
+  P->>S: Activate zone link
+  S-->>P: Energy path opens
+  P->>S: Reroute to adjacent node
+  S-->>P: Unexpected subsystem wake
+  P->>S: Repeat with altered order
+  S-->>P: Stable pattern + new protocol fragment
+```
 
 ---
 
