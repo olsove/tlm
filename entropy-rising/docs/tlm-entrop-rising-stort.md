@@ -6,7 +6,7 @@ The Megastructure is decaying.
 
 Not passively—but actively.
 
-Every system you restore accelerates its collapse.
+Every system you restore speeds up its collapse.
 
 ---
 
@@ -42,7 +42,7 @@ You must constantly balance:
 
 ## Narrative Tone
 
-- Urgent, deteriorating, high-stakes
+- Urgent, deteriorating, high stakes
 - The structure feels like it is **failing faster the more you use it**
 - You are holding something together that may not want to survive
 
@@ -50,4 +50,4 @@ You must constantly balance:
 
 ## Key Question
 
-> Are you saving the Megastructure… or accelerating its inevitable end?
+> Are you saving the Megastructure… or speeding up its inevitable end?
